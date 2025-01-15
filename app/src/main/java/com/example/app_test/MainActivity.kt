@@ -33,12 +33,15 @@ import com.example.app_test.ui.theme.ApptestTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Icon
@@ -52,9 +55,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -89,71 +95,37 @@ fun Greeting(name: String, from: String, modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+fun BottomNavBar(){
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Home", "Schedule", "Account")
+    val selectedIcons = listOf(Icons.Filled.Home, Icons.Filled.DateRange, Icons.Filled.AccountCircle)
+    val unselectedIcons =
+        listOf(Icons.Outlined.Home, Icons.Outlined.DateRange, Icons.Outlined.AccountCircle)
 
-// bred
-//@Composable
-//fun NavigationBar(
-//    modifier: Modifier,
-//    containerColor: Color = Color.Red,
-//    contentColor: Color = MaterialTheme.colorScheme.contentColorFor(Color.Red),
-//    tonalElevation: Dp = NavigationBarDefaults.Elevation,
-//    windowInsets: WindowInsets = NavigationBarDefaults.windowInsets,
-//    content: Any
-//
-//){
-//    NavigationBarItem(icon = Icons.Filled.Home, label = "Home", selected = true, onClick = {})
-//    NavigationBarItem(icon = Icons.Filled.AccountCircle, label = "Account", selected = false, onClick = {})
-//}
-//
-//@Composable
-//fun NavigationBarItem(icon: ImageVector, label: String, selected: Any, onClick: () -> Unit) {
-//    val num = 1
-//}
+    NavigationBar {
+        items.forEachIndexed { index, item -> NavigationBarItem(
+            icon = { Icon(
+                if (selectedItem == index) selectedIcons[index] else unselectedIcons[index],
+                contentDescription = item
+            )},
+            label = {Text(item)},
+            selected = selectedItem == index,
+            onClick = {selectedItem = index}
+        ) }
+    }
+}
 
 @Composable
-fun BottomAppBar(){
-    BottomAppBar(
-        actions = {
-            IconButton(onClick = { /* do something */ }) {
-                Icon(Icons.Filled.Check, contentDescription = "Localized description")
-            }
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    Icons.Filled.Edit,
-                    contentDescription = "Localized description",
-                )
-            }
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    Icons.Filled.AccountCircle,
-                    contentDescription = "Localized description",
-                )
-            }
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    Icons.Filled.Home,
-                    contentDescription = "Localized description",
-                )
-            }
-        }
-    )
-}
+fun NavigationBarItem(icon: ImageVector, label: String, selected: Boolean, onClick: () -> Unit){}
 
 @Composable
 fun MainView(){
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            BottomAppBar()
+            BottomNavBar()
         }
-//                    bottomBar = {
-//                        BottomAppBar(
-//                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-//                            contentColor = MaterialTheme.colorScheme.primary
-//                        ){
-//                            NavigationBar(modifier = Modifier, content = NavigationBarItem(icon = Icons.Filled.Home, label = "Home", selected = true, onClick = {}))
-//                        }
-//                    }
     ) { innerPadding ->
         Greeting(
             name = "ivan",
