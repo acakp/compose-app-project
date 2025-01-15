@@ -63,35 +63,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ApptestTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = {
-                        TopAppBar(
-                            colors = topAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                titleContentColor = MaterialTheme.colorScheme.primary
-                            ),
-                            title = { Text("compose test app") }
-                        )
-                    },
-                    bottomBar = {
-                        BottomAppBar()
-                    }
-//                    bottomBar = {
-//                        BottomAppBar(
-//                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-//                            contentColor = MaterialTheme.colorScheme.primary
-//                        ){
-//                            NavigationBar(modifier = Modifier, content = NavigationBarItem(icon = Icons.Filled.Home, label = "Home", selected = true, onClick = {}))
-//                        }
-//                    }
-                ) { innerPadding ->
-                    Greeting(
-                        name = "ivan",
-                        from = "den",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                MainView()
             }
         }
     }
@@ -165,6 +137,30 @@ fun BottomAppBar(){
             }
         }
     )
+}
+
+@Composable
+fun MainView(){
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            BottomAppBar()
+        }
+//                    bottomBar = {
+//                        BottomAppBar(
+//                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+//                            contentColor = MaterialTheme.colorScheme.primary
+//                        ){
+//                            NavigationBar(modifier = Modifier, content = NavigationBarItem(icon = Icons.Filled.Home, label = "Home", selected = true, onClick = {}))
+//                        }
+//                    }
+    ) { innerPadding ->
+        Greeting(
+            name = "ivan",
+            from = "den",
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
