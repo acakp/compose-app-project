@@ -61,6 +61,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
+
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -73,6 +79,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+enum class BottomNavBarScreens(){
+    Home,
+    Account,
+    Schedule
 }
 
 @Composable
@@ -111,7 +123,7 @@ fun BottomNavBar(){
             )},
             label = {Text(item)},
             selected = selectedItem == index,
-            onClick = {selectedItem = index}
+            onClick = {selectedItem = index; }
         ) }
     }
 }
@@ -121,6 +133,7 @@ fun NavigationBarItem(icon: ImageVector, label: String, selected: Boolean, onCli
 
 @Composable
 fun MainView(){
+    val navController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
